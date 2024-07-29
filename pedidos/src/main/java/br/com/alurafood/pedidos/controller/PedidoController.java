@@ -1,7 +1,7 @@
 package br.com.alurafood.pedidos.controller;
 
-import br.com.alurafood.pedidos.dto.PedidoDto;
-import br.com.alurafood.pedidos.dto.StatusDto;
+import br.com.alurafood.pedidos.dto.PedidoDTO;
+import br.com.alurafood.pedidos.dto.StatusDTO;
 import br.com.alurafood.pedidos.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,13 +22,13 @@ public class PedidoController {
         private PedidoService service;
 
         @GetMapping()
-        public List<PedidoDto> listarTodos() {
+        public List<PedidoDTO> listarTodos() {
             return service.obterTodos();
         }
 
         @GetMapping("/{id}")
-        public ResponseEntity<PedidoDto> listarPorId(@PathVariable @NotNull Long id) {
-            PedidoDto dto = service.obterPorId(id);
+        public ResponseEntity<PedidoDTO> listarPorId(@PathVariable @NotNull Long id) {
+            PedidoDTO dto = service.obterPorId(id);
 
             return  ResponseEntity.ok(dto);
         }
@@ -39,8 +39,8 @@ public class PedidoController {
         }
 
         @PostMapping()
-        public ResponseEntity<PedidoDto> realizaPedido(@RequestBody @Valid PedidoDto dto, UriComponentsBuilder uriBuilder) {
-            PedidoDto pedidoRealizado = service.criarPedido(dto);
+        public ResponseEntity<PedidoDTO> realizaPedido(@RequestBody @Valid PedidoDTO dto, UriComponentsBuilder uriBuilder) {
+            PedidoDTO pedidoRealizado = service.criarPedido(dto);
 
             URI endereco = uriBuilder.path("/pedidos/{id}").buildAndExpand(pedidoRealizado.getId()).toUri();
 
@@ -49,8 +49,8 @@ public class PedidoController {
         }
 
         @PutMapping("/{id}/status")
-        public ResponseEntity<PedidoDto> atualizaStatus(@PathVariable Long id, @RequestBody StatusDto status){
-           PedidoDto dto = service.atualizaStatus(id, status);
+        public ResponseEntity<PedidoDTO> atualizaStatus(@PathVariable Long id, @RequestBody StatusDTO status){
+           PedidoDTO dto = service.atualizaStatus(id, status);
 
             return ResponseEntity.ok(dto);
         }

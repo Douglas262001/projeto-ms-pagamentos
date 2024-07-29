@@ -1,7 +1,7 @@
 package br.com.alurafood.pedidos.service;
 
-import br.com.alurafood.pedidos.dto.PedidoDto;
-import br.com.alurafood.pedidos.dto.StatusDto;
+import br.com.alurafood.pedidos.dto.PedidoDTO;
+import br.com.alurafood.pedidos.dto.StatusDTO;
 import br.com.alurafood.pedidos.model.Pedido;
 import br.com.alurafood.pedidos.model.Status;
 import br.com.alurafood.pedidos.repository.PedidoRepository;
@@ -26,20 +26,20 @@ public class PedidoService {
     private final ModelMapper modelMapper;
 
 
-    public List<PedidoDto> obterTodos() {
+    public List<PedidoDTO> obterTodos() {
         return repository.findAll().stream()
-                .map(p -> modelMapper.map(p, PedidoDto.class))
+                .map(p -> modelMapper.map(p, PedidoDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public PedidoDto obterPorId(Long id) {
+    public PedidoDTO obterPorId(Long id) {
         Pedido pedido = repository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        return modelMapper.map(pedido, PedidoDto.class);
+        return modelMapper.map(pedido, PedidoDTO.class);
     }
 
-    public PedidoDto criarPedido(PedidoDto dto) {
+    public PedidoDTO criarPedido(PedidoDTO dto) {
         Pedido pedido = modelMapper.map(dto, Pedido.class);
 
         pedido.setDataHora(LocalDateTime.now());
@@ -47,10 +47,10 @@ public class PedidoService {
         pedido.getItens().forEach(item -> item.setPedido(pedido));
         Pedido salvo = repository.save(pedido);
 
-        return modelMapper.map(pedido, PedidoDto.class);
+        return modelMapper.map(pedido, PedidoDTO.class);
     }
 
-    public PedidoDto atualizaStatus(Long id, StatusDto dto) {
+    public PedidoDTO atualizaStatus(Long id, StatusDTO dto) {
 
         Pedido pedido = repository.porIdComItens(id);
 
@@ -60,7 +60,7 @@ public class PedidoService {
 
         pedido.setStatus(dto.getStatus());
         repository.atualizaStatus(dto.getStatus(), pedido);
-        return modelMapper.map(pedido, PedidoDto.class);
+        return modelMapper.map(pedido, PedidoDTO.class);
     }
 
     public void aprovaPagamentoPedido(Long id) {

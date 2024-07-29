@@ -11,12 +11,12 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PedidoDto {
+public class PedidoDTO {
 
     private Long id;
     private LocalDateTime dataHora;
     private Status status;
-    private List<ItemDoPedidoDto> itens = new ArrayList<>();
+    private List<ItemDoPedidoDTO> itens = new ArrayList<>();
 
 
 
